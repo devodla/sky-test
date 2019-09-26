@@ -17,9 +17,15 @@ router.post('/signup', async (req,res,next) => {
         expiresIn: 60 * 30
     });
     user.token = token;
-    await user.save();
-
-    res.json({mensagem: 'Autenticado', Bearer: token})
+    const userEmail = await User.findOne({email: email});
+    if (userEmail) {
+        return res.status(201).json({
+            mensagem: 'E-mail já existente'
+        });
+    } else {
+        await user.save();
+        res.status(200).json(user);
+    }
 })
 
 router.get('/signup/:userId', async (req,res,next) => {
@@ -34,7 +40,7 @@ router.get('/signup/:userId', async (req,res,next) => {
 
     const SemBearer = token.replace('Bearer {','').replace('}','');
     
-    const userprocuradp = await User.findById(userID);
+    const userprocuradp = await User.findById(userID, {senha:0,__v:0});
     
     //const decodedSemBearer = jwt.verify(SemBearer, config.secret);
     if (userprocuradp.token == SemBearer){
@@ -85,10 +91,6 @@ router.post('/signin', async (req,res,next) => {
             if (err) console.log (err);
         });
     });
-})
-
-router.get('/buscador', (req,res,next) => {
-    res.json('buscador');
 })
 
 module.exports = router;

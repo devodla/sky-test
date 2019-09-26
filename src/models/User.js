@@ -22,4 +22,8 @@ userSchema.methods.encriptarSenha = async (senha) => {
     return bcrypt.hash(senha, salt) //Converte a senha en caracteres indecifravel
 };
 
+userSchema.methods.valideSenha = async function (senha) {
+    return bcrypt.compare(senha, this.senha);
+};
+
 module.exports = model('User', userSchema);

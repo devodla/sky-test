@@ -3,6 +3,7 @@ const router = Router();
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const User = require('../models/User');
+const verifyToken = require('./verifyToken');
 
 router.post('/signup', async (req,res,next) => {
     try {
@@ -66,6 +67,15 @@ router.get('/buscar/:userId', async (req,res,next) => {
     } catch (e) {
         res.status(404).json({mensagem: 'mensagem de erro', erro: e});
     }
+})
+
+router.get('/dashboard', verifyToken, async (req,res,next) => {
+    const user = await User.findById(req.userId, {senha: 0});
+    if(!user) {
+        return res.status(404).json({mensagem: 'Nao encontrado'});
+    }
+
+    res.status(200).json({mensagem: 'Encontrado'});
 })
 
 router.post('/signin', async (req,res,next) => {

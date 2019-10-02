@@ -34,3 +34,6 @@ GET: /buscar/:userId
 nome do header do token: authorization
 Valor nesse formato: Bearer { eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkOGMzYzJlNGUyZTRlMTBiNGM2M2JjOSIsImlhdCI6MTU2OTQ3MjcxOCwiZXhwIjoxNTY5NDc0NTE4fQ.ft07TkklE3O_1WwWT5JJkH0F6W6u8bPcVz6BqWqHReA }
 
+
+# executar o server:
+> npm run dev
